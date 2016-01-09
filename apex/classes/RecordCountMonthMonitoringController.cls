@@ -50,6 +50,7 @@ public with sharing class RecordCountMonthMonitoringController {
                     CALENDAR_YEAR(CreatedDate) =: year
                 AND
                     CALENDAR_MONTH(CreatedDate) =: month
+                LIMIT 50000
         ];
     }
     
@@ -66,6 +67,7 @@ public with sharing class RecordCountMonthMonitoringController {
                     CALENDAR_YEAR(CreatedDate) =: year
                 AND
                     CALENDAR_MONTH(CreatedDate) =: month
+                LIMIT 50000
         ];
     }
     
@@ -82,6 +84,7 @@ public with sharing class RecordCountMonthMonitoringController {
                     CALENDAR_YEAR(CreatedDate) =: year
                 AND
                     CALENDAR_MONTH(CreatedDate) =: month
+                LIMIT 50000
         ];
     }
     
