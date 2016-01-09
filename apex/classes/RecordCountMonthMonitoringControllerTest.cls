@@ -5,7 +5,6 @@ private class RecordCountMonthMonitoringControllerTest {
 
     /**
      * コンストラクタ
-     * レコード:0件
      */
     static testMethod void RecordCountMonthMonitoringControllerTest1() {
         
@@ -26,125 +25,11 @@ private class RecordCountMonthMonitoringControllerTest {
             System.assertEquals(results[0].OpportunityCount__c, 0);
         }
     }
-    
-    /**
-     * コンストラクタ
-     * 取引先レコード:1件
-     */
-    static testMethod void RecordCountMonthMonitoringControllerTest2() {
-        
-        System.runAs(testAdminUser) {
-            
-            Account account = createAccount(true);
-
-            Test.startTest();
-            
-            // コンストラクタ
-            RecordCountMonthMonitoringController cls = new RecordCountMonthMonitoringController();
-            
-            Test.stopTest();
-            
-            // レコード件数モニタリング作成結果確認
-            List<RecordCountMonitoring__c> results = getTestResultRecordCountMonitoringList();
-            System.assertEquals(results.size(), 1);
-            System.assertEquals(results[0].AccountCount__c, 1);
-            System.assertEquals(results[0].ContactCount__c, 0);
-            System.assertEquals(results[0].OpportunityCount__c, 0);
-        }
-    }
-    
-    /**
-     * コンストラクタ
-     * 取引先責任者レコード:1件
-     */
-    static testMethod void RecordCountMonthMonitoringControllerTest3() {
-        
-        System.runAs(testAdminUser) {
-            
-            Account account = createAccount(true);
-            Contact contact = createContact(account, true);
-
-            Test.startTest();
-            
-            // コンストラクタ
-            RecordCountMonthMonitoringController cls = new RecordCountMonthMonitoringController();
-            
-            Test.stopTest();
-            
-            // レコード件数モニタリング作成結果確認
-            List<RecordCountMonitoring__c> results = getTestResultRecordCountMonitoringList();
-            System.assertEquals(results.size(), 1);
-            System.assertEquals(results[0].AccountCount__c, 1);
-            System.assertEquals(results[0].ContactCount__c, 1);
-            System.assertEquals(results[0].OpportunityCount__c, 0);
-        }
-    }
-    
-    /**
-     * コンストラクタ
-     * 商談レコード:1件
-     */
-    static testMethod void RecordCountMonthMonitoringControllerTest4() {
-        
-        System.runAs(testAdminUser) {
-            
-            Account account = createAccount(true);
-            Opportunity opportunity = createOpportunity(account, true);
-
-            Test.startTest();
-            
-            // コンストラクタ
-            RecordCountMonthMonitoringController cls = new RecordCountMonthMonitoringController();
-            
-            Test.stopTest();
-            
-            // レコード件数モニタリング作成結果確認
-            List<RecordCountMonitoring__c> results = getTestResultRecordCountMonitoringList();
-            System.assertEquals(results.size(), 1);
-            System.assertEquals(results[0].AccountCount__c, 1);
-            System.assertEquals(results[0].ContactCount__c, 0);
-            System.assertEquals(results[0].OpportunityCount__c, 1);
-        }
-    }
-    
-    /**
-     * コンストラクタ
-     * 複数件
-     */
-    static testMethod void RecordCountMonthMonitoringControllerTest5() {
-        
-        System.runAs(testAdminUser) {
-            
-            List<Account> accounts = new List<Account>();
-            for (Integer i = 0; i < 201; i++) {
-                Account a = createAccount(false);
-                accounts.add(a);
-            }
-            insert accounts;
-            System.assertEquals(accounts.size(), 201);
-            
-            Opportunity opportunity = createOpportunity(accounts[0], true);
-
-            Test.startTest();
-            
-            // コンストラクタ
-            RecordCountMonthMonitoringController cls = new RecordCountMonthMonitoringController();
-            
-            Test.stopTest();
-            
-            // レコード件数モニタリング作成結果確認
-            List<RecordCountMonitoring__c> results = getTestResultRecordCountMonitoringList();
-            System.assertEquals(results.size(), 1);
-            System.assertEquals(results[0].AccountCount__c, 201);
-            System.assertEquals(results[0].ContactCount__c, 0);
-            System.assertEquals(results[0].OpportunityCount__c, 1);
-        }
-    }
 
     /**
      * コンストラクタ(任意の年月で集計する場合)
      */
-    static testMethod void RecordCountMonthMonitoringControllerTest6() {
+    static testMethod void RecordCountMonthMonitoringControllerTest2() {
         
         System.runAs(testAdminUser) {
             
@@ -164,6 +49,132 @@ private class RecordCountMonthMonitoringControllerTest {
             System.assertEquals(results[0].AccountCount__c, 0);
             System.assertEquals(results[0].ContactCount__c, 0);
             System.assertEquals(results[0].OpportunityCount__c, 0);
+        }
+    }
+
+    /**
+     * コンストラクタ(任意の年月で集計してテスト)
+     * 取引先レコード:1件
+     */
+    static testMethod void RecordCountMonthMonitoringControllerTest3() {
+        
+        System.runAs(testAdminUser) {
+            
+            Integer year = System.today().year();
+            Integer month = System.today().month();
+
+            Account account = createAccount(true);
+
+            Test.startTest();
+            
+            // コンストラクタ
+            RecordCountMonthMonitoringController cls = new RecordCountMonthMonitoringController(year, month);
+            
+            Test.stopTest();
+            
+            // レコード件数モニタリング作成結果確認
+            List<RecordCountMonitoring__c> results = getTestResultRecordCountMonitoringList();
+            System.assertEquals(results.size(), 1);
+            System.assertEquals(results[0].AccountCount__c, 1);
+            System.assertEquals(results[0].ContactCount__c, 0);
+            System.assertEquals(results[0].OpportunityCount__c, 0);
+        }
+    }
+    
+    /**
+     * コンストラクタ(任意の年月で集計してテスト)
+     * 取引先責任者レコード:1件
+     */
+    static testMethod void RecordCountMonthMonitoringControllerTest4() {
+        
+        System.runAs(testAdminUser) {
+            
+            Integer year = System.today().year();
+            Integer month = System.today().month();
+
+            Account account = createAccount(true);
+            Contact contact = createContact(account, true);
+
+            Test.startTest();
+            
+            // コンストラクタ
+            RecordCountMonthMonitoringController cls = new RecordCountMonthMonitoringController(year, month);
+            
+            Test.stopTest();
+            
+            // レコード件数モニタリング作成結果確認
+            List<RecordCountMonitoring__c> results = getTestResultRecordCountMonitoringList();
+            System.assertEquals(results.size(), 1);
+            System.assertEquals(results[0].AccountCount__c, 1);
+            System.assertEquals(results[0].ContactCount__c, 1);
+            System.assertEquals(results[0].OpportunityCount__c, 0);
+        }
+    }
+    
+    /**
+     * コンストラクタ(任意の年月で集計してテスト)
+     * 商談レコード:1件
+     */
+    static testMethod void RecordCountMonthMonitoringControllerTest5() {
+        
+        System.runAs(testAdminUser) {
+
+            Integer year = System.today().year();
+            Integer month = System.today().month();
+            
+            Account account = createAccount(true);
+            Opportunity opportunity = createOpportunity(account, true);
+
+            Test.startTest();
+            
+            // コンストラクタ
+            RecordCountMonthMonitoringController cls = new RecordCountMonthMonitoringController(year, month);
+            
+            Test.stopTest();
+            
+            // レコード件数モニタリング作成結果確認
+            List<RecordCountMonitoring__c> results = getTestResultRecordCountMonitoringList();
+            System.assertEquals(results.size(), 1);
+            System.assertEquals(results[0].AccountCount__c, 1);
+            System.assertEquals(results[0].ContactCount__c, 0);
+            System.assertEquals(results[0].OpportunityCount__c, 1);
+        }
+    }
+    
+    /**
+     * コンストラクタ(任意の年月で集計してテスト)
+     * 複数件
+     */
+    static testMethod void RecordCountMonthMonitoringControllerTest6() {
+        
+        System.runAs(testAdminUser) {
+
+            Integer year = System.today().year();
+            Integer month = System.today().month();
+            
+            List<Account> accounts = new List<Account>();
+            for (Integer i = 0; i < 201; i++) {
+                Account a = createAccount(false);
+                accounts.add(a);
+            }
+            insert accounts;
+            System.assertEquals(accounts.size(), 201);
+            
+            Opportunity opportunity = createOpportunity(accounts[0], true);
+
+            Test.startTest();
+            
+            // コンストラクタ
+            RecordCountMonthMonitoringController cls = new RecordCountMonthMonitoringController(year, month);
+            
+            Test.stopTest();
+            
+            // レコード件数モニタリング作成結果確認
+            List<RecordCountMonitoring__c> results = getTestResultRecordCountMonitoringList();
+            System.assertEquals(results.size(), 1);
+            System.assertEquals(results[0].AccountCount__c, 201);
+            System.assertEquals(results[0].ContactCount__c, 0);
+            System.assertEquals(results[0].OpportunityCount__c, 1);
         }
     }
 

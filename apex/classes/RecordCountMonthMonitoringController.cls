@@ -4,9 +4,9 @@ public with sharing class RecordCountMonthMonitoringController {
      * コンストラクタ
      */
     public RecordCountMonthMonitoringController() {
-        // 集計期間の年月取得
+        // 集計期間の年月取得(先月)
         Integer year = System.today().year();
-        Integer month = System.today().month();
+        Integer month = System.today().month() - 1;
         // レコード件数モニタリング作成
         this.createRecordCountMonitoring(year, month);
     }
